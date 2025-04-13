@@ -17,7 +17,7 @@ import { FavoriteModelName, FavoriteSchema } from './favorites/favorite.schema';
 
 import { SeedService } from './seed.service';
 import { SeedController } from './seed.controller';
-import { UsersModule } from '@avans-nx-workshop/backend/user'; // of het juiste pad
+import { UsersModule } from '@avans-nx-workshop/backend/user'; 
 
 import { Neo4jBackendModule } from '@avans-nx-workshop/backend/neo4j';
 

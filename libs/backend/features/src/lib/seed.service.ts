@@ -21,16 +21,16 @@ export class SeedService {
   ) { }
 
   async seed() {
-    this.logger.log('🔁 Start met opschonen van de database...');
+    this.logger.log('Start met opschonen van de database...');
 
     await this.gameModel.deleteMany({});
     await this.favoriteModel.deleteMany({});
     await this.reviewModel.deleteMany({});
     await this.userModel.deleteMany({});
 
-    this.logger.log('✅ Database opgeschoond');
+    this.logger.log('Database opgeschoond');
 
-    this.logger.log('👤 Voeg gebruikers toe...');
+    this.logger.log(' Voeg gebruikers toe...');
     const users = await this.userModel.insertMany([
       {
         name: 'Hamid',
@@ -52,7 +52,7 @@ export class SeedService {
       },
     ]);
 
-    this.logger.log('🎲 Voeg spellen toe...');
+    this.logger.log(' Voeg spellen toe...');
     const games = await this.gameModel.insertMany([
       { title: 'Catan', description: 'Strategisch handelsspel', is18Plus: false },
       { title: 'Risk', description: 'Wereldoverheersing', is18Plus: false },
@@ -60,7 +60,7 @@ export class SeedService {
       { title: 'Exploding Kittens', description: 'Strategie + chaos', is18Plus: false },
     ]);
 
-    this.logger.log('⭐ Voeg favorieten toe...');
+    this.logger.log(' Voeg favorieten toe...');
     await this.favoriteModel.insertMany([
       { user: users[0]._id, game: games[0]._id },
       { user: users[1]._id, game: games[0]._id },
@@ -68,7 +68,7 @@ export class SeedService {
       { user: users[2]._id, game: games[2]._id },
     ]);
 
-    this.logger.log('📝 Voeg reviews toe...');
+    this.logger.log(' Voeg reviews toe...');
     await this.reviewModel.insertMany([
       {
         userId: users[0]._id,
@@ -90,7 +90,7 @@ export class SeedService {
       },
     ]);
 
-    this.logger.log('🌐 Voeg gebruikers en favorieten toe in Neo4j...');
+    this.logger.log(' Voeg gebruikers en favorieten toe in Neo4j...');
 
     for (const user of users) {
       await this.neo4jService.write(
@@ -138,6 +138,6 @@ export class SeedService {
       MERGE (u)-[:FAVORITED]->(g)
     `);
 
-    this.logger.log('✅ Demo data succesvol ingevoerd, inclusief Neo4j!');
+    this.logger.log(' Demo data succesvol ingevoerd, inclusief Neo4j!');
   }
 }
