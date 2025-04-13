@@ -1,0 +1,24 @@
+<div class="game-list-container">
+  <h1>📚 Game List</h1>
+  <h2>🎮 Alle Games</h2>
+
+  <ng-container *ngIf="games$ | async as games; else loading">
+    <ul *ngIf="games.length > 0; else noGames" class="game-list">
+      <li *ngFor="let game of games" class="game-item">
+        <div class="game-info">
+          <span class="game-title">{{ game.title }}</span>
+          <span class="game-date">📅 {{ game.releaseDate | date }}</span>
+        </div>
+        <a [routerLink]="['/games', game._id]" class="details-link">Bekijk details</a>
+      </li>
+    </ul>
+  </ng-container>
+
+  <ng-template #loading>
+    <p>⏳ Games worden geladen...</p>
+  </ng-template>
+
+  <ng-template #noGames>
+    <p>🚫 Geen games gevonden.</p>
+  </ng-template>
+</div>

@@ -1,0 +1,27 @@
+# Node.js
+node_modules/
+dist/
+.tmp/
+
+# Angular & Nx
+.angular/cache/
+.nx/cache/
+dist/
+out/
+coverage/
+
+# VSCode en JetBrains
+.vscode/
+.idea/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Logbestanden
+*.log
+
+# Env
+.env
+.env.local

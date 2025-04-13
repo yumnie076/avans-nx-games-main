@@ -1,0 +1,11 @@
+<div class="game-detail-container" *ngIf="game">
+  <h1>🎯 Game Details</h1>
+
+  <div class="game-card">
+    <h2 class="game-title">{{ game.title }}</h2>
+    <p class="game-release">📅 Released: {{ game.releaseDate | date }}</p>
+    <p class="game-description">{{ game.description }}</p>
+  </div>
+
+  <a routerLink="/games" class="back-link">← Terug naar overzicht</a>
+</div>
