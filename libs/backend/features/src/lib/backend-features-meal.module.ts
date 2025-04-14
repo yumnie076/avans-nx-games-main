@@ -13,7 +13,8 @@ import { JwtModule } from '@nestjs/jwt';
             { name: MealModel.name, schema: MealSchema },
             { name: UserModel.name, schema: UserSchema }
         ]),
-        JwtModule,
+    JwtModule,
+    
         AuthModule
     ],
     controllers: [MealController],

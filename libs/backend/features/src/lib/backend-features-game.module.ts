@@ -18,8 +18,9 @@ import { FavoriteModelName, FavoriteSchema } from './favorites/favorite.schema';
 import { SeedService } from './seed.service';
 import { SeedController } from './seed.controller';
 import { UsersModule } from '@avans-nx-workshop/backend/user'; 
-
+import { AuthGuard } from '@avans-nx-workshop/backend/auth';
 import { Neo4jBackendModule } from '@avans-nx-workshop/backend/neo4j';
+import { AuthModule } from '@avans-nx-workshop/backend/auth';
 
 @Module({
   imports: [
@@ -29,9 +30,10 @@ import { Neo4jBackendModule } from '@avans-nx-workshop/backend/neo4j';
       { name: FavoriteModelName, schema: FavoriteSchema }, 
     ]),
     UsersModule,
+    AuthModule,
     Neo4jBackendModule,
   ],
-  providers: [GamesService, ReviewsService, FavoritesService, SeedService],
+  providers: [GamesService, ReviewsService, FavoritesService, SeedService, AuthGuard],
   controllers: [GamesController, ReviewsController, FavoritesController, SeedController],        
   exports: [GamesService, ReviewsService, FavoritesService],              
 })

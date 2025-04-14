@@ -2,8 +2,14 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
-export class Game extends Document {
+export class Tag {
   @Prop({ required: true })
+  name!: string;
+}
+
+@Schema()
+export class Game extends Document {
+  @Prop({ required: true, index: true })
   title!: string;
 
   @Prop()
@@ -21,11 +27,15 @@ export class Game extends Document {
   @Prop()
   maxPlayers?: number;
 
-  @Prop()
+  @Prop({ index: true })
   genre?: string;
 
   @Prop()
   languageIndependent?: boolean;
+
+  // ➕ EMBEDDING: tags direct in Game opgeslagen
+  @Prop({ type: [Tag] })
+  tags?: Tag[];
 }
 
 export const GameSchema = SchemaFactory.createForClass(Game);
