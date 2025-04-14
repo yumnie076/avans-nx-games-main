@@ -52,13 +52,53 @@ export class SeedService {
       },
     ]);
 
-    this.logger.log(' Voeg spellen toe...');
     const games = await this.gameModel.insertMany([
-      { title: 'Catan', description: 'Strategisch handelsspel', is18Plus: false },
-      { title: 'Risk', description: 'Wereldoverheersing', is18Plus: false },
-      { title: 'Uno', description: 'Kaartspel voor iedereen', is18Plus: false },
-      { title: 'Exploding Kittens', description: 'Strategie + chaos', is18Plus: false },
+      {
+        title: 'Catan',
+        description: 'Strategisch handelsspel',
+        releaseDate: new Date('2005-01-01'),
+        isMultiplayer: true,
+        minPlayers: 3,
+        maxPlayers: 4,
+        genre: 'Strategy',
+        languageIndependent: false,
+        is18Plus: false
+      },
+      {
+        title: 'Risk',
+        description: 'Wereldoverheersing',
+        releaseDate: new Date('2000-01-01'),
+        isMultiplayer: true,
+        minPlayers: 2,
+        maxPlayers: 6,
+        genre: 'War',
+        languageIndependent: false,
+        is18Plus: false
+      },
+      {
+        title: 'Uno',
+        description: 'Kaartspel voor iedereen',
+        releaseDate: new Date('1995-06-01'),
+        isMultiplayer: true,
+        minPlayers: 2,
+        maxPlayers: 10,
+        genre: 'Card',
+        languageIndependent: true,
+        is18Plus: false
+      },
+      {
+        title: 'Exploding Kittens',
+        description: 'Strategie + chaos',
+        releaseDate: new Date('2015-02-15'),
+        isMultiplayer: true,
+        minPlayers: 2,
+        maxPlayers: 5,
+        genre: 'Humor',
+        languageIndependent: true,
+        is18Plus: false
+      }
     ]);
+
 
     this.logger.log(' Voeg favorieten toe...');
     await this.favoriteModel.insertMany([

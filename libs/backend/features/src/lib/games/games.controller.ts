@@ -11,6 +11,11 @@ export class GamesController {
     return this.gamesService.findAll();
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.gamesService.findOne(id);
+  }
+
   @Post()
   create(@Body() dto: CreateGameDto) {
     return this.gamesService.create(dto);

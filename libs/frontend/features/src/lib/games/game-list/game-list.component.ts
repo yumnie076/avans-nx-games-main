@@ -14,5 +14,6 @@ export class GameListComponent {
 
   constructor(private gameService: GameApiService) {
     this.games$ = this.gameService.getGames();
+    this.games$.subscribe(games => console.log('📦 Binnenkomende games:', games));
   }
 }

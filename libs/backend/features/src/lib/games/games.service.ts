@@ -16,11 +16,15 @@ export class GamesService {
     return this.gameModel.find().exec();
   }
 
+  async findOne(id: string): Promise<Game | null> {
+    return this.gameModel.findById(id).exec();
+  }
+
   async update(id: string, dto: UpdateGameDto): Promise<Game | null> {
-    return this.gameModel.findByIdAndUpdate(id, dto, { new: true });
+    return this.gameModel.findByIdAndUpdate(id, dto, { new: true }).exec();
   }
 
   async delete(id: string): Promise<Game | null> {
-    return this.gameModel.findByIdAndDelete(id);
+    return this.gameModel.findByIdAndDelete(id).exec();
   }
 }

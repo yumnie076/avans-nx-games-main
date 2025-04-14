@@ -1,11 +1,20 @@
-<div class="game-detail-container" *ngIf="game">
+<div class="game-detail-container" *ngIf="game; else loading">
   <h1>🎯 Game Details</h1>
 
-  <div class="game-card">
-    <h2 class="game-title">{{ game.title }}</h2>
-    <p class="game-release">📅 Released: {{ game.releaseDate | date }}</p>
-    <p class="game-description">{{ game.description }}</p>
+  <div class="game-info">
+    <p><strong>🎮 Titel:</strong> {{ game.title }}</p>
+    <p><strong>📝 Beschrijving:</strong> {{ game.description || 'Geen beschrijving beschikbaar.' }}</p>
+    <p><strong>📅 Releasedatum:</strong> {{ game.releaseDate | date:'longDate' }}</p>
+    <p><strong>🎭 Genre:</strong> {{ game.genre || 'Onbekend' }}</p>
+    <p><strong>👥 Multiplayer:</strong> {{ game.isMultiplayer ? 'Ja' : 'Nee' }}</p>
+    <p><strong>👤 Min spelers:</strong> {{ game.minPlayers || 'n.v.t.' }}</p>
+    <p><strong>👥 Max spelers:</strong> {{ game.maxPlayers || 'n.v.t.' }}</p>
+    <p><strong>🌐 Taalonafhankelijk:</strong> {{ game.languageIndependent ? 'Ja' : 'Nee' }}</p>
   </div>
 
-  <a routerLink="/games" class="back-link">← Terug naar overzicht</a>
+  <button routerLink="/games">🔙 Terug naar lijst</button>
 </div>
+
+<ng-template #loading>
+  <p>⏳ Game wordt geladen...</p>
+</ng-template>

@@ -30,7 +30,7 @@ async function bootstrap() {
     const port = process.env.PORT || 3000;
     await app.listen(port);
     Logger.log(
-        `🚀 DATA-API server is running on: http://localhost:${port}/${globalPrefix}`
+        ` DATA-API server is running on: http://localhost:${port}/${globalPrefix}`
     );
 }
 
