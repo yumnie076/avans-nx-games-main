@@ -11,7 +11,7 @@
     <p><strong>👥 Max spelers:</strong> {{ game.maxPlayers || 'n.v.t.' }}</p>
     <p><strong>🌐 Taalonafhankelijk:</strong> {{ game.languageIndependent ? 'Ja' : 'Nee' }}</p>
   </div>
-
+  <a [routerLink]="['/games', game._id, 'edit']" class="btn btn-warning">Bewerk dit spel</a>
   <button routerLink="/games">🔙 Terug naar lijst</button>
 </div>
 

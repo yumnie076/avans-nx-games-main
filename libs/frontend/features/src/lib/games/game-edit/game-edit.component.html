@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <h3>🎮 Bewerken: {{ game.title }}</h3>
+
+  <form (ngSubmit)="updateGame()" *ngIf="game">
+    <input [(ngModel)]="game.title" name="title" class="form-control mb-2" placeholder="Titel" required />
+    <input [(ngModel)]="game.releaseDate" name="releaseDate" type="date" class="form-control mb-2" required />
+    <textarea [(ngModel)]="game.description" name="description" class="form-control mb-2" placeholder="Beschrijving"></textarea>
+    <input [(ngModel)]="game.genre" name="genre" class="form-control mb-2" placeholder="Genre" />
+    <input [(ngModel)]="game.minPlayers" name="minPlayers" type="number" class="form-control mb-2" placeholder="Min spelers" />
+    <input [(ngModel)]="game.maxPlayers" name="maxPlayers" type="number" class="form-control mb-2" placeholder="Max spelers" />
+
+    <div class="form-check">
+      <input type="checkbox" [(ngModel)]="game.isMultiplayer" name="isMultiplayer" class="form-check-input" />
+      <label class="form-check-label">Multiplayer</label>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" [(ngModel)]="game.languageIndependent" name="languageIndependent" class="form-check-input" />
+      <label class="form-check-label">Taalonafhankelijk</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Opslaan</button>
+    <button type="button" class="btn btn-danger mt-3 ms-2" (click)="deleteGame()">Verwijder</button>
+  </form>
+</div>

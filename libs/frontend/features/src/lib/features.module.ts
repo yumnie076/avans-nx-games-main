@@ -17,6 +17,7 @@ import { ColumnsComponent } from './columns/columns.component';
 import { GameListComponent } from './games/game-list/game-list.component';
 import { GameDetailComponent } from './games/game-detail/game-detail.component';
 import { GameCreateComponent } from './games/game-create/game-create.component';
+import { GameEditComponent } from './games/game-edit/game-edit.component';
 
 
 
@@ -40,7 +41,8 @@ import { GameCreateComponent } from './games/game-create/game-create.component';
     // Game
     GameListComponent,
     GameDetailComponent,
-    GameCreateComponent
+    GameCreateComponent,
+    GameEditComponent
   ],
   exports: [
     // User
@@ -54,7 +56,8 @@ import { GameCreateComponent } from './games/game-create/game-create.component';
     // Game
     GameListComponent,
     GameDetailComponent,
-    GameCreateComponent
+    GameCreateComponent,
+    GameEditComponent
   ]
 })
 export class FeaturesModule { }
