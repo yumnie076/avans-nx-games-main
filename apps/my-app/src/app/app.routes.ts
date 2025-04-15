@@ -5,15 +5,18 @@ import { UserDetailsComponent, UserEditComponent, UserListComponent, ColumnsComp
 import { GameListComponent, GameDetailComponent } from '@avans-nx-workshop/features';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { GameCreateComponent } from '@avans-nx-workshop/features';
+
+
 export const appRoutes: Route[] = [
     // Hier komen onze URLs te staan.
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'games', component: GameListComponent },
+  { path: 'games/new', component: GameCreateComponent },
   { path: 'games/:id', component: GameDetailComponent },
 
-  
 
     { path: 'dashboard', component: DashboardComponent },
     { path: 'about', pathMatch: 'full', component: AboutComponent },

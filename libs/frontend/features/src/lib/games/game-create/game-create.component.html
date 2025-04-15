@@ -1,0 +1,24 @@
+<div class="container mt-4">
+  <h2>Nieuw Spel Aanmaken</h2>
+  <form (ngSubmit)="createGame()" #form="ngForm">
+    <input [(ngModel)]="game.title" name="title" class="form-control mb-2" placeholder="Titel" required />
+    <input [(ngModel)]="game.releaseDate" name="releaseDate" type="date" class="form-control mb-2" required />
+    <textarea [(ngModel)]="game.description" name="description" class="form-control mb-2" placeholder="Beschrijving"></textarea>
+    <input [(ngModel)]="game.genre" name="genre" class="form-control mb-2" placeholder="Genre" />
+    <input [(ngModel)]="game.minPlayers" name="minPlayers" type="number" class="form-control mb-2" placeholder="Min spelers" />
+    <input [(ngModel)]="game.maxPlayers" name="maxPlayers" type="number" class="form-control mb-2" placeholder="Max spelers" />
+
+    <div class="form-check mb-2">
+      <input [(ngModel)]="game.isMultiplayer" name="isMultiplayer" type="checkbox" class="form-check-input" id="multiplayerCheck" />
+      <label for="multiplayerCheck" class="form-check-label">Multiplayer</label>
+    </div>
+
+    <div class="form-check mb-2">
+      <input [(ngModel)]="game.languageIndependent" name="languageIndependent" type="checkbox" class="form-check-input" id="languageIndependentCheck" />
+      <label for="languageIndependentCheck" class="form-check-label">Taalonafhankelijk</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Aanmaken</button>
+  </form>
+</div>
+<router-outlet></router-outlet>

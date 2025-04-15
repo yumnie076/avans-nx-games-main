@@ -6,3 +6,4 @@ export * from './lib/columns/columns.component'
 export * from './lib/games/game-list/game-list.component';
 export * from './lib/games/game-detail/game-detail.component';
 export * from './lib/game-api.service';
+export * from './lib/games/game-create/game-create.component';

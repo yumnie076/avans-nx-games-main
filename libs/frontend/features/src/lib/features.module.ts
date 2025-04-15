@@ -16,6 +16,9 @@ import { ColumnsComponent } from './columns/columns.component';
 // Game components
 import { GameListComponent } from './games/game-list/game-list.component';
 import { GameDetailComponent } from './games/game-detail/game-detail.component';
+import { GameCreateComponent } from './games/game-create/game-create.component';
+
+
 
 @NgModule({
   imports: [
@@ -36,7 +39,8 @@ import { GameDetailComponent } from './games/game-detail/game-detail.component';
 
     // Game
     GameListComponent,
-    GameDetailComponent
+    GameDetailComponent,
+    GameCreateComponent
   ],
   exports: [
     // User
@@ -49,7 +53,8 @@ import { GameDetailComponent } from './games/game-detail/game-detail.component';
 
     // Game
     GameListComponent,
-    GameDetailComponent
+    GameDetailComponent,
+    GameCreateComponent
   ]
 })
 export class FeaturesModule { }
