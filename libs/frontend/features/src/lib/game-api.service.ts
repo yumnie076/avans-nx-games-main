@@ -1,43 +1,53 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Game } from '@avans-nx-workshop/shared/api';
-import { map } from 'rxjs';
-
+import { Observable, map } from 'rxjs';
+import { Game, Review } from '@avans-nx-workshop/shared/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameApiService {
-  private readonly baseUrl = 'http://localhost:3000/api/games';
+  private readonly baseUrl = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient) { }
 
+  // Games
   getGames(): Observable<Game[]> {
-    return this.http.get<{ results: Game[] }>(this.baseUrl).pipe(
-      map(response => response.results) 
-    );
-  }
-
-
-  getGameById(id: string): Observable<Game> {
-    return this.http.get<{ results: Game }>(`${this.baseUrl}/${id}`).pipe(
+    return this.http.get<{ results: Game[] }>(`${this.baseUrl}/games`).pipe(
       map(response => response.results)
     );
   }
 
-
+  getGameById(id: string): Observable<Game> {
+    return this.http.get<{ results: Game }>(`${this.baseUrl}/games/${id}`).pipe(
+      map(response => response.results)
+    );
+  }
 
   createGame(game: Partial<Game>): Observable<Game> {
-    return this.http.post<Game>(this.baseUrl, game);
+    return this.http.post<Game>(`${this.baseUrl}/games`, game);
   }
 
   updateGame(id: string, game: Partial<Game>): Observable<Game> {
-    return this.http.put<Game>(`${this.baseUrl}/${id}`, game);
+    return this.http.put<Game>(`${this.baseUrl}/games/${id}`, game);
   }
 
   deleteGame(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/games/${id}`);
+  }
+
+  // Reviews
+  getReviews(): Observable<Review[]> {
+    return this.http.get<{ results: Review[] }>(`${this.baseUrl}/reviews`).pipe(
+      map(response => response.results)
+    );
+  }
+
+  createReview(review: Partial<Review>): Observable<Review> {
+    return this.http.post<Review>(`${this.baseUrl}/reviews`, review);
+  }
+
+  deleteReview(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/reviews/${id}`);
   }
 }
-
