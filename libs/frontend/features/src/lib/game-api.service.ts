@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { Game, Review } from '@avans-nx-workshop/shared/api';
+import { Game, Review, Favorite } from '@avans-nx-workshop/shared/api';
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +50,29 @@ export class GameApiService {
   deleteReview(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/reviews/${id}`);
   }
+
+  // Favorites
+  getFavorites(): Observable<Favorite[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<{ results: Favorite[] }>(`${this.baseUrl}/favorites/me`, { headers }).pipe(
+      map(res => res.results)
+    );
+  }
+
+  addFavorite(payload: { game: string }): Observable<Favorite> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<Favorite>(`${this.baseUrl}/favorites`, payload, { headers });
+  }
+
+  removeFavorite(game: string): Observable<void> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete<void>(`${this.baseUrl}/favorites/${game}`, { headers });
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+  }
+
+
 }

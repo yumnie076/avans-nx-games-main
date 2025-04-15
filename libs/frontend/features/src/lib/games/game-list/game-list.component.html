@@ -2,29 +2,31 @@
   <h1>📚 Game List</h1>
   <h2>🎮 Alle Games</h2>
 
-  <ng-container *ngIf="games$ | async as games; else loading">
-    <ul *ngIf="games.length > 0; else noGames" class="game-list">
+  <ng-container *ngIf="games.length > 0; else loading">
+    <ul class="game-list">
       <li *ngFor="let game of games" class="game-item">
         <div class="game-info">
           <span class="game-title">{{ game.title }}</span>
           <span class="game-date">📅 {{ game.releaseDate | date }}</span>
         </div>
+        <button class="btn btn-sm" (click)="toggleFavorite(game._id)">
+          <span *ngIf="isFavorite(game._id)">❤️</span>
+          <span *ngIf="!isFavorite(game._id)">🤍</span>
+          Favoriet
+        </button>
+
         <a [routerLink]="['/games', game._id]" class="details-link">Bekijk details</a>
       </li>
     </ul>
   </ng-container>
+
   <div class="d-flex justify-content-end mb-3">
     <a routerLink="/games/new" class="btn btn-success">
       ➕ Game Aanmaken
     </a>
   </div>
-  
 
   <ng-template #loading>
     <p>⏳ Games worden geladen...</p>
-  </ng-template>
-
-  <ng-template #noGames>
-    <p>🚫 Geen games gevonden.</p>
   </ng-template>
 </div>

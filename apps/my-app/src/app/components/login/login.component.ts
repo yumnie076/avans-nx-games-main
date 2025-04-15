@@ -22,6 +22,8 @@ export class LoginComponent {
         if (user.token) {
           localStorage.setItem('token', user.token);
           localStorage.setItem('userId', user._id);
+          localStorage.setItem('access_token', user.token);// fav
+
           this.router.navigate(['/dashboard']);
 
         } else {

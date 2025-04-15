@@ -8,3 +8,4 @@ export * from './lib/games/game-detail/game-detail.component';
 export * from './lib/game-api.service';
 export * from './lib/games/game-create/game-create.component';
 export * from './lib/games/game-edit/game-edit.component';
+export * from './lib/games/user-favorites/user-favorites.component';

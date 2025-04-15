@@ -7,6 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { GameCreateComponent } from '@avans-nx-workshop/features';
 import { GameEditComponent } from '@avans-nx-workshop/features';
+import { UserFavoritesComponent } from '@avans-nx-workshop/features';
 
 export const appRoutes: Route[] = [
     // Hier komen onze URLs te staan.
@@ -17,6 +18,7 @@ export const appRoutes: Route[] = [
   { path: 'games/new', component: GameCreateComponent },
   { path: 'games/:id', component: GameDetailComponent },
   { path: 'games/:id/edit', component: GameEditComponent },
+  { path: 'favorites', component: UserFavoritesComponent },
 
     { path: 'dashboard', component: DashboardComponent },
     { path: 'about', pathMatch: 'full', component: AboutComponent },

@@ -3,17 +3,24 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Review } from './review.schema';
 import { CreateReviewDto, UpdateReviewDto } from '@avans-nx-workshop/backend/dto';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class ReviewsService {
   constructor(@InjectModel(Review.name) private reviewModel: Model<Review>) { }
 
   async create(dto: CreateReviewDto): Promise<Review> {
-    return this.reviewModel.create(dto);
+    return this.reviewModel.create({
+      ...dto,
+      gameId: new Types.ObjectId(dto.gameId),
+      userId: new Types.ObjectId(dto.userId),
+    });
   }
+
 
   async findAll(): Promise<Review[]> {
     return this.reviewModel.find().populate('gameId userId').exec();
+
   }
 
   async update(id: string, dto: UpdateReviewDto): Promise<Review | null> {
