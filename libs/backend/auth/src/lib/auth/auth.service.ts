@@ -1,3 +1,4 @@
+
 import { Injectable, Logger } from '@nestjs/common';
 import {
     ConflictException,
@@ -13,6 +14,9 @@ import { IUserCredentials, IUserIdentity } from '@avans-nx-workshop/shared/api';
 import { CreateUserDto } from '@avans-nx-workshop/backend/dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { UserRole } from '@avans-nx-workshop/shared/api';
+
+
 
 @Injectable()
 export class AuthService {
@@ -66,14 +70,31 @@ export class AuthService {
             });
     }
 
-    async register(user: CreateUserDto): Promise<IUserIdentity> {
-        this.logger.log(`Register user ${user.name}`);
-        if (await this.userModel.findOne({ emailAddress: user.emailAddress })) {
-            this.logger.debug('user exists');
-            throw new ConflictException('User already exist');
-        }
-        this.logger.debug('User not found, creating');
-        const createdItem = await this.userModel.create(user);
-        return createdItem;
+  async register(user: CreateUserDto): Promise<IUserIdentity> {
+    this.logger.log(`Register user ${user.name}`);
+
+    const existingUser = await this.userModel.findOne({ emailAddress: user.emailAddress });
+    if (existingUser) {
+      this.logger.debug('User already exists');
+      throw new ConflictException('User already exists');
     }
+
+    const createdItem = await this.userModel.create(user);
+
+    const payload = {
+      user_id: createdItem._id,
+    };
+
+    return {
+      _id: createdItem._id.toString(), 
+      name: createdItem.name,
+      emailAddress: createdItem.emailAddress,
+      profileImgUrl: createdItem.profileImgUrl ?? '',
+      role: createdItem.role ?? UserRole.Unknown,
+      token: this.jwtService.sign(payload),
+    };
+  }
+
 }
+
+

@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
-import { LoginComponent } from './users/user-login/user-login.component';
+
 
 // Other components
 import { ColumnsComponent } from './columns/columns.component';
@@ -30,8 +30,7 @@ import { GameDetailComponent } from './games/game-detail/game-detail.component';
     UserDetailsComponent,
     UserListComponent,
     UserEditComponent,
-    LoginComponent,
-
+   
     // Other
     ColumnsComponent,
 
@@ -44,8 +43,7 @@ import { GameDetailComponent } from './games/game-detail/game-detail.component';
     UserDetailsComponent,
     UserListComponent,
     UserEditComponent,
-    LoginComponent,
-
+  
     // Other
     ColumnsComponent,
 

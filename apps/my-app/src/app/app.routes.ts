@@ -3,11 +3,13 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AboutComponent } from './components/about/about.component';
 import { UserDetailsComponent, UserEditComponent, UserListComponent, ColumnsComponent } from '@avans-nx-workshop/features';
 import { GameListComponent, GameDetailComponent } from '@avans-nx-workshop/features';
-import { LoginComponent } from '@avans-nx-workshop/features';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 export const appRoutes: Route[] = [
     // Hier komen onze URLs te staan.
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },  
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'games', component: GameListComponent },
   { path: 'games/:id', component: GameDetailComponent },
 
