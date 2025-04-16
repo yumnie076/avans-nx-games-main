@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/action
-
-name: Build and deploy frontend and backend app to Azure
+name: Build and deploy frontend and backend apps to Azure
 
 on:
   push:
@@ -21,81 +18,116 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install, build, and test
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build all apps
+        run: npm run build --if-present
+
+      - name: Zip data-api
         run: |
-          npm install
-          npm run build --if-present
-          # npm run test --if-present
+          cd dist/apps/data-api/
+          zip -r ${{ github.workspace }}/data-api-release.zip .
 
-      - name: Zip artifacts for deployment
-        run: |
-          echo ${GITHUB_WORKSPACE}
-          cd ${GITHUB_WORKSPACE}/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
-          cd ${GITHUB_WORKSPACE}/dist/apps/my-app/ && zip ${GITHUB_WORKSPACE}/my-app-release.zip ./* -r
-
-      - name: Upload my-app artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: my-app
-          path: my-app-release.zip
-
-      - name: Upload data-api artifact for deployment job
+      - name: Upload data-api artifact
         uses: actions/upload-artifact@v4
         with:
           name: data-api
           path: data-api-release.zip
 
+      - name: Zip my-app (Angular frontend)
+        run: |
+          cd dist/apps/my-app/
+          zip -r ${{ github.workspace }}/my-app-release.zip .
+
+      - name: Upload my-app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app
+          path: my-app-release.zip
+
+      - name: Zip rcmnd-api
+        run: |
+          cd dist/apps/rcmnd-api/
+          zip -r ${{ github.workspace }}/rcmnd-api-release.zip .
+
+      - name: Upload rcmnd-api artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcmnd-api
+          path: rcmnd-api-release.zip
+
   deploy-my-app:
     runs-on: ubuntu-latest
     name: Deploy Angular Frontend
     needs: build
-    environment:
-      name: 'Production'
-
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          name: my-app
+          node-version: '18.x'
 
-      - name: Unzip artifact for deployment
-        run: unzip my-app-release.zip
+      - name: Install dependencies
+        run: npm install
 
-      - name: Deploy to static azure web app
-        id: builddeploy
+      - name: Build Angular app
+        run: npm run build my-app
+
+      - name: Deploy to Azure Static Web App
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: 'upload'
-          app_location: '.' 
-          api_location: ''
-          output_location: '.' 
+          action: upload
+          app_location: apps/my-app
+          output_location: dist/apps/my-app
+
   deploy-data-api:
     runs-on: ubuntu-latest
     name: Deploy NestJs data-api backend
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
     steps:
-      - name: Download artifact from build job
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: data-api
 
-      - name: Unzip artifact for deployment
+      - name: Unzip artifact
         run: unzip data-api-release.zip
 
       - name: Install dependencies
         run: npm install
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
+      - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'nx-games'
           slot-name: 'Production'
           publish-profile: ${{ secrets.NESTJS_PUBLISHPROFILE }}
+          package: .
+
+  deploy-rcmnd-api:
+    runs-on: ubuntu-latest
+    name: Deploy rcmnd-api backend
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: rcmnd-api
+
+      - name: Unzip artifact
+        run: unzip rcmnd-api-release.zip
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'nx-games-neo4j'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.NEO4J_PUBLISHPROFILE }}
           package: .
