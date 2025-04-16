@@ -1,0 +1,127 @@
+name: Build and deploy frontend and backend app to Azure
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and zip apps from /dist
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          # npm run test --if-present
+
+      - name: Zip artifacts for deployment
+        run: |
+          echo ${GITHUB_WORKSPACE}
+          cd ${GITHUB_WORKSPACE}/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
+          cd ${GITHUB_WORKSPACE}/dist/apps/my-app/ && zip ${GITHUB_WORKSPACE}/my-app-release.zip ./* -r
+          cd ${GITHUB_WORKSPACE}/dist/apps/rcmnd-api/ && zip ${GITHUB_WORKSPACE}/rcmnd-api-release.zip ./* -r
+
+      - name: Upload my-app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app
+          path: my-app-release.zip
+
+      - name: Upload data-api artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-api
+          path: data-api-release.zip
+
+      - name: Upload rcmnd-api artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcmnd-api
+          path: rcmnd-api-release.zip
+
+  deploy-my-app:
+    runs-on: ubuntu-latest
+    name: Deploy Angular Frontend
+    needs: build
+    environment:
+      name: 'Production'
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: my-app
+
+      - name: Unzip artifact
+        run: unzip my-app-release.zip
+
+      - name: Deploy to Azure Static Web App
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: 'upload'
+          app_location: '/'
+          api_location: ''
+          output_location: 'dist/apps/my-app'
+
+  deploy-data-api:
+    runs-on: ubuntu-latest
+    name: Deploy NestJS data-api backend
+    needs: build
+    environment:
+      name: 'Production'
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: data-api
+
+      - name: Unzip artifact
+        run: unzip data-api-release.zip
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'nx-games'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.NESTJS_PUBLISHPROFILE }}
+          package: .
+
+  deploy-rcmnd-api:
+    runs-on: ubuntu-latest
+    name: Deploy Neo4j rcmnd-api backend
+    needs: build
+    environment:
+      name: 'Production'
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: rcmnd-api
+
+      - name: Unzip artifact
+        run: unzip rcmnd-api-release.zip
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'nx-games-neo4j'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.NEO4J_PUBLISHTOKEN }}
+          package: .
