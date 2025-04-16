@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
-
+import { UserSuggestionsComponent } from './users/user-suggestions/user-suggestions.component';
 
 // Other components
 import { ColumnsComponent } from './columns/columns.component';
@@ -36,6 +36,7 @@ import { UserFavoritesComponent } from './games/user-favorites/user-favorites.co
     UserDetailsComponent,
     UserListComponent,
     UserEditComponent,
+    UserSuggestionsComponent,
    
     // Other
     ColumnsComponent,
@@ -52,6 +53,7 @@ import { UserFavoritesComponent } from './games/user-favorites/user-favorites.co
     UserDetailsComponent,
     UserListComponent,
     UserEditComponent,
+    UserSuggestionsComponent,
   
     // Other
     ColumnsComponent,

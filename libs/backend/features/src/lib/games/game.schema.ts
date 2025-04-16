@@ -33,7 +33,7 @@ export class Game extends Document {
   @Prop()
   languageIndependent?: boolean;
 
-  // ➕ EMBEDDING: tags direct in Game opgeslagen
+  
   @Prop({ type: [Tag] })
   tags?: Tag[];
 }

@@ -32,73 +32,20 @@ export class SeedService {
 
     this.logger.log(' Voeg gebruikers toe...');
     const users = await this.userModel.insertMany([
-      {
-        name: 'Hamid',
-        emailAddress: 'hamid@example.com',
-        password: 'test123',
-        profileImgUrl: 'https://cdn-icons-png.flaticon.com/512/219/219969.png',
-      },
-      {
-        name: 'Ali',
-        emailAddress: 'ali@example.com',
-        password: 'test123',
-        profileImgUrl: 'https://cdn-icons-png.flaticon.com/512/219/219983.png',
-      },
-      {
-        name: 'Sara',
-        emailAddress: 'sara@example.com',
-        password: 'test123',
-        profileImgUrl: 'https://cdn-icons-png.flaticon.com/512/219/219970.png',
-      },
+      { name: 'Hamid', emailAddress: 'hamid@example.com', password: 'test123', profileImgUrl: 'https://cdn-icons-png.flaticon.com/512/219/219969.png' },
+      { name: 'Ali', emailAddress: 'ali@example.com', password: 'test123', profileImgUrl: 'https://cdn-icons-png.flaticon.com/512/219/219983.png' },
+      { name: 'Sara', emailAddress: 'sara@example.com', password: 'test123', profileImgUrl: 'https://cdn-icons-png.flaticon.com/512/219/219970.png' },
+      { name: 'Mehdi', emailAddress: 'mehdi@example.com', password: 'test123', profileImgUrl: 'https://cdn-icons-png.flaticon.com/512/219/219972.png' },
+      { name: 'Fatima', emailAddress: 'fatima@example.com', password: 'test123', profileImgUrl: 'https://cdn-icons-png.flaticon.com/512/219/219973.png' },
     ]);
 
     const games = await this.gameModel.insertMany([
-      {
-        title: 'Catan',
-        description: 'Strategisch handelsspel',
-        releaseDate: new Date('2005-01-01'),
-        isMultiplayer: true,
-        minPlayers: 3,
-        maxPlayers: 4,
-        genre: 'Strategy',
-        languageIndependent: false,
-        is18Plus: false
-      },
-      {
-        title: 'Risk',
-        description: 'Wereldoverheersing',
-        releaseDate: new Date('2000-01-01'),
-        isMultiplayer: true,
-        minPlayers: 2,
-        maxPlayers: 6,
-        genre: 'War',
-        languageIndependent: false,
-        is18Plus: false
-      },
-      {
-        title: 'Uno',
-        description: 'Kaartspel voor iedereen',
-        releaseDate: new Date('1995-06-01'),
-        isMultiplayer: true,
-        minPlayers: 2,
-        maxPlayers: 10,
-        genre: 'Card',
-        languageIndependent: true,
-        is18Plus: false
-      },
-      {
-        title: 'Exploding Kittens',
-        description: 'Strategie + chaos',
-        releaseDate: new Date('2015-02-15'),
-        isMultiplayer: true,
-        minPlayers: 2,
-        maxPlayers: 5,
-        genre: 'Humor',
-        languageIndependent: true,
-        is18Plus: false
-      }
+      { title: 'Catan', description: 'Strategisch handelsspel', releaseDate: new Date('2005-01-01'), isMultiplayer: true, minPlayers: 3, maxPlayers: 4, genre: 'Strategy', languageIndependent: false, is18Plus: false },
+      { title: 'Risk', description: 'Wereldoverheersing', releaseDate: new Date('2000-01-01'), isMultiplayer: true, minPlayers: 2, maxPlayers: 6, genre: 'War', languageIndependent: false, is18Plus: false },
+      { title: 'Uno', description: 'Kaartspel voor iedereen', releaseDate: new Date('1995-06-01'), isMultiplayer: true, minPlayers: 2, maxPlayers: 10, genre: 'Card', languageIndependent: true, is18Plus: false },
+      { title: 'Exploding Kittens', description: 'Strategie + chaos', releaseDate: new Date('2015-02-15'), isMultiplayer: true, minPlayers: 2, maxPlayers: 5, genre: 'Humor', languageIndependent: true, is18Plus: false },
+      { title: 'FIFA', description: 'Voetbalgame met realistische gameplay', releaseDate: new Date('2020-09-01'), isMultiplayer: true, minPlayers: 1, maxPlayers: 4, genre: 'Sports', languageIndependent: false, is18Plus: false }
     ]);
-
 
     this.logger.log(' Voeg favorieten toe...');
     await this.favoriteModel.insertMany([
@@ -106,37 +53,31 @@ export class SeedService {
       { user: users[1]._id, game: games[0]._id },
       { user: users[1]._id, game: games[1]._id },
       { user: users[2]._id, game: games[2]._id },
+      { user: users[3]._id, game: games[3]._id },
+      { user: users[4]._id, game: games[4]._id },
     ]);
 
     this.logger.log(' Voeg reviews toe...');
     await this.reviewModel.insertMany([
-      {
-        userId: users[0]._id,
-        gameId: games[0]._id,
-        rating: 5,
-        comment: 'Catan blijft een topper!',
-      },
-      {
-        userId: users[1]._id,
-        gameId: games[1]._id,
-        rating: 4,
-        comment: 'Risk is spannend maar duurt lang',
-      },
-      {
-        userId: users[2]._id,
-        gameId: games[2]._id,
-        rating: 3,
-        comment: 'Uno is leuk voor tussendoor',
-      },
+      { userId: users[0]._id, gameId: games[0]._id, rating: 5, comment: 'Catan blijft een topper!' },
+      { userId: users[1]._id, gameId: games[1]._id, rating: 4, comment: 'Risk is spannend maar duurt lang' },
+      { userId: users[2]._id, gameId: games[2]._id, rating: 3, comment: 'Uno is leuk voor tussendoor' },
+      { userId: users[3]._id, gameId: games[3]._id, rating: 4, comment: 'Katten + explosies = chaos' },
+      { userId: users[4]._id, gameId: games[4]._id, rating: 5, comment: 'FIFA is mijn favoriete sportgame' },
     ]);
 
     this.logger.log(' Voeg gebruikers en favorieten toe in Neo4j...');
-
     for (const user of users) {
-      await this.neo4jService.write(
-        `MERGE (u:User {id: $id, name: $name})`,
-        { id: user._id.toString(), name: user.name }
-      );
+      await this.neo4jService.write(`MERGE (u:User {id: $id, name: $name})`, {
+        id: user._id.toString(),
+        name: user.name,
+      });
+    }
+
+    for (const game of games) {
+      await this.neo4jService.write(`MERGE (g:Game {title: $title})`, {
+        title: game.title,
+      });
     }
 
     await this.neo4jService.write(`
@@ -151,30 +92,30 @@ export class SeedService {
       MERGE (b)-[:FRIENDS_WITH]->(a)
     `);
 
-    for (const game of games) {
-      await this.neo4jService.write(
-        `MERGE (g:Game {title: $title})`,
-        { title: game.title }
-      );
-    }
+    await this.neo4jService.write(`
+      MATCH (a:User {name: 'Fatima'}), (b:User {name: 'Mehdi'})
+      MERGE (a)-[:FRIENDS_WITH]->(b)
+      MERGE (b)-[:FRIENDS_WITH]->(a)
+    `);
 
     await this.neo4jService.write(`
       MATCH (u:User {name: 'Hamid'}), (g:Game {title: 'Catan'})
       MERGE (u)-[:FAVORITED]->(g)
     `);
-
     await this.neo4jService.write(`
       MATCH (u:User {name: 'Ali'}), (g:Game {title: 'Catan'})
       MERGE (u)-[:FAVORITED]->(g)
     `);
-
     await this.neo4jService.write(`
       MATCH (u:User {name: 'Ali'}), (g:Game {title: 'Risk'})
       MERGE (u)-[:FAVORITED]->(g)
     `);
-
     await this.neo4jService.write(`
       MATCH (u:User {name: 'Sara'}), (g:Game {title: 'Uno'})
+      MERGE (u)-[:FAVORITED]->(g)
+    `);
+    await this.neo4jService.write(`
+      MATCH (u:User {name: 'Fatima'}), (g:Game {title: 'FIFA'})
       MERGE (u)-[:FAVORITED]->(g)
     `);
 

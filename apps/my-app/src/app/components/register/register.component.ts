@@ -31,7 +31,7 @@ export class RegisterComponent {
        
         if (user?.token) {
           console.log('User successfully registered with Token:', user.token);
-
+          localStorage.setItem('userId', user._id);
         
           this.router.navigate(['/login']);
         } else {

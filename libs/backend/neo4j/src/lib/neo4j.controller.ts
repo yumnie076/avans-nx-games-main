@@ -21,10 +21,11 @@ export class Neo4jController {
 
   
   @Post('befriend')
-  async befriendUsers(@Body() body: { userId1: string; userId2: string }) {
-    await this.neo4jService.befriendUsers(body.userId1, body.userId2);
+  async befriendUsers(@Body() body: { user1: string; user2: string }) {
+    await this.neo4jService.befriendUsers(body.user1, body.user2);
     return { message: 'Users are now friends' };
   }
+
 
 
   @Get('shared-favorites/:userId')
@@ -36,6 +37,10 @@ export class Neo4jController {
   @Get('friends-info/:userId')
   async getFriendsWithMongo(@Param('userId') userId: string) {
     return this.neo4jService.getFriendsWithMongoInfo(userId);
+  }
+  @Get('suggest-friends/:userId')
+  async suggestFriends(@Param('userId') userId: string) {
+    return this.neo4jService.findUsersToBefriend(userId);
   }
 
  

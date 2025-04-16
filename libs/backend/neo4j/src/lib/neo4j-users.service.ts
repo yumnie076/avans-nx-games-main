@@ -26,6 +26,13 @@ export class Neo4JUserService {
       MERGE (u)-[:FAVORITED]->(g)
     `, { userId, gameTitle });
   }
+  async unfavoriteGame(userId: string, gameTitle: string): Promise<void> {
+    await this.neo4jService.write(`
+    MATCH (u:User {id: $userId})-[f:FAVORITED]->(g:Game {title: $gameTitle})
+    DELETE f
+  `, { userId, gameTitle });
+  }
+
 
   async befriendUsers(user1: string, user2: string): Promise<void> {
     await this.neo4jService.write(`
@@ -34,6 +41,38 @@ export class Neo4JUserService {
     MERGE (u2)-[:FRIENDS_WITH]->(u1)
   `, { user1, user2 });
   }
+  async findUsersToBefriend(userId: string): Promise<any[]> {
+    try {
+      const query = `
+      MATCH (u:User)
+      WHERE u.id <> $userId AND NOT EXISTS {
+        MATCH (:User {id: $userId})-[:FRIENDS_WITH]-(:User {id: u.id})
+      }
+      RETURN u.id AS userId
+    `;
+
+      const result = await this.neo4jService.read(query, { userId });
+
+      const userIds = result.records.map(r => r.get('userId'));
+
+      // check of userIds leeg is
+      if (!userIds.length) return [];
+
+      const users = await this.userModel
+        .find({ _id: { $in: userIds } })
+        .select('name emailAddress profileImgUrl')
+        .exec();
+
+      return users;
+
+    } catch (err) {
+      console.error('Error in findUsersToBefriend:', err);
+      throw new Error(`Kon suggesties niet ophalen: ${err.message}`);
+    }
+  }
+
+
+
 
 
   async findUsersWithSharedFavorites(userId: string): Promise<any[]> {
