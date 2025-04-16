@@ -1,116 +1,101 @@
 <div class="container mt-5">
-  <h1 class="text-center mb-4">Gamesplatform Dashboard</h1>
+  <h1 class="text-center mb-4">Over dit Project</h1>
 
   <section class="mb-5">
-    <h2>Over dit Project</h2>
+    <h2>Studentinformatie</h2>
     <p class="fs-5">
-      Dit platform is ontwikkeld voor het vak NoSQL binnen de opleiding Informatica aan Avans Hogeschool.
-      De applicatie stelt gebruikers in staat om digitale games te bekijken, beoordelen en als favoriet op te slaan.
-      De applicatie is gebouwd met een moderne webstack, bestaande uit:
-    </p>
-    <ul>
-      <li>NestJS backend met MongoDB en Neo4j</li>
-      <li>Angular frontend in een Nx-monorepo</li>
-      <li>JWT-gebaseerde authenticatie</li>
-      <li>Ondersteuning voor gebruikersfavorieten, reviews en gebruikersprofielen</li>
-    </ul>
-    <p>
-      De frontend en backend zijn gescheiden en communiceren via REST API's. De gegevens worden opgeslagen in MongoDB,
-      en Neo4j wordt gebruikt voor sociale relaties (zoals vriendschappen en gedeelde favorieten).
+      <strong>Naam:</strong> Yumnie Taouil<br>
+      <strong>Studentnummer:</strong> 2211614
     </p>
   </section>
 
   <section class="mb-5">
-    <h2>Belangrijkste Functionaliteiten</h2>
-    <ul>
-      <li>Games toevoegen, bekijken, bewerken en verwijderen</li>
-      <li>Games beoordelen via reviews</li>
-      <li>Favoriete games opslaan en beheren</li>
-      <li>Overzicht van games per gebruiker</li>
-      <li>JWT-authenticatie en beveiligde endpoints</li>
-    </ul>
+    <h2>Casusbeschrijving</h2>
+    <p class="fs-5">
+      Deze applicatie is ontwikkeld voor het vak NoSQL aan de Avans Hogeschool.
+      In deze applicatie kunnen gebruikers bordspellen beoordelen en favorieten opslaan.
+      Elke gebruiker kan meerdere spellen als favoriet markeren en reviews schrijven.
+      De gegevens worden opgeslagen in MongoDB en Neo4j, waardoor zowel document- als graafdata beschikbaar zijn.
+      Neo4j maakt onder andere het aanbevelen van vrienden of gedeelde favorieten mogelijk.
+    </p>
   </section>
 
   <section class="mb-5">
-    <h2>User Stories en Acceptatiecriteria</h2>
-
-    <h4>User Story 1 – Games bekijken</h4>
+    <h2>ERD - Entity Relationship Diagram</h2>
     <p>
-      Als gebruiker wil ik een lijst van games kunnen zien zodat ik kan ontdekken welke games beschikbaar zijn.
+      Onderstaand diagram toont de belangrijkste entiteiten in de applicatie: <strong>User</strong>, <strong>Game</strong>, <strong>Review</strong> en <strong>Favorite</strong>.
+      Reviews worden in Neo4j gemodelleerd als <em>hyper-edges</em> om eigenschappen zoals rating, comment en createdAt op te slaan tussen User en Game.
     </p>
-    <ul>
-      <li>De gebruiker ziet een overzicht van alle games</li>
-      <li>Elke game toont een titel, beschrijving en release-informatie</li>
-
-    </ul>
-
-    <h4>User Story 2 – Game toevoegen</h4>
-    <p>
-      Als gebruiker wil ik een nieuwe game kunnen toevoegen zodat ik mijn favoriete games kan delen met anderen.
-    </p>
-    <ul>
-      <li>Alleen ingelogde gebruikers kunnen een game toevoegen</li>
-      <li>Een game bevat minimaal een titel, beschrijving, genre, en spelersinformatie</li>
-    </ul>
-
-    <h4>User Story 3 – Game beoordelen</h4>
-    <p>
-      Als gebruiker wil ik een review kunnen achterlaten bij een game zodat ik mijn mening kan delen.
-    </p>
-    <ul>
-      <li>De gebruiker kan een review met een score (1–5) en optioneel een opmerking plaatsen</li>
-      <li>Alle reviews zijn zichtbaar per game</li>
-    </ul>
-
-    <h4>User Story 4 – Games als favoriet opslaan</h4>
-    <p>
-      Als gebruiker wil ik games als favoriet kunnen markeren zodat ik ze later makkelijk terug kan vinden.
-    </p>
-    <ul>
-      <li>Alleen ingelogde gebruikers kunnen games als favoriet markeren</li>
-      <li>Favoriete games zijn zichtbaar op een aparte pagina</li>
-    </ul>
+    <img src="assets/ERD.png" alt="ERD Diagram" class="img-fluid rounded border shadow-sm mt-3 mb-3" />
+    <p class="text-muted">Let op: dit ERD is een visuele weergave van het onderliggende NoSQL-model (MongoDB + Neo4j).</p>
   </section>
 
-  <section class="row mt-4">
-    <div class="col-md-6 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Alle Games</h5>
-          <p class="card-text">Bekijk het volledige overzicht van alle toegevoegde games.</p>
-          <a routerLink="/games" class="btn btn-outline-primary">Bekijk games</a>
-        </div>
-      </div>
-    </div>
+  <section class="mb-5">
+    <h2>Functionele Requirements</h2>
 
-    <div class="col-md-6 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Favoriete Games</h5>
-          <p class="card-text">Bekijk de lijst van jouw favoriete games.</p>
-          <a routerLink="/favorites" class="btn btn-outline-success">Bekijk favorieten</a>
-        </div>
-      </div>
-    </div>
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>User Story</th>
+          <th>Acceptatiecriteria</th>
+          <th>Prioriteit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Als gebruiker wil ik een lijst van games kunnen zien zodat ik kan ontdekken welke games beschikbaar zijn.</td>
+          <td>
+            - Overzicht toont minimaal titel en releasedatum<br>
+            - Beschikbaar zonder in te loggen
+          </td>
+          <td>Must</td>
+        </tr>
+        <tr>
+          <td>Als gebruiker wil ik een nieuwe game kunnen toevoegen zodat ik mijn favoriete games kan delen met anderen.</td>
+          <td>
+            - Alleen ingelogde gebruikers kunnen toevoegen<br>
+            - Validatie op titel, genre en spelersaantallen
+          </td>
+          <td>Must</td>
+        </tr>
+        <tr>
+          <td>Als gebruiker wil ik games kunnen beoordelen zodat ik mijn mening kan delen met anderen.</td>
+          <td>
+            - Score verplicht (1-5)<br>
+            - Opmerking optioneel<br>
+            - Alleen ingelogd
+          </td>
+          <td>Should</td>
+        </tr>
+        <tr>
+          <td>Als gebruiker wil ik games als favoriet kunnen opslaan zodat ik ze later makkelijk terugvind.</td>
+          <td>
+            - Favoriet-knop zichtbaar bij elke game<br>
+            - Eigen favorieten zijn via een aparte pagina te bekijken
+          </td>
+          <td>Must</td>
+        </tr>
+        <tr>
+          <td>Als gebruiker wil ik andere gebruikers als vriend kunnen toevoegen zodat ik hun favorieten kan ontdekken.</td>
+          <td>
+            - Vriendknop bij gebruikersoverzicht<br>
+            - Vriendenpagina zichtbaar
+          </td>
+          <td>Could</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-    <div class="col-md-6 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Nieuwe Game Toevoegen</h5>
-          <p class="card-text">Voeg een nieuwe game toe aan het platform.</p>
-          <a routerLink="/games/new" class="btn btn-outline-warning">Game toevoegen</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">Over dit Project</h5>
-          <p class="card-text">Bekijk uitleg over het datamodel en de technische keuzes.</p>
-          <a routerLink="/about" class="btn btn-outline-secondary">Meer informatie</a>
-        </div>
-      </div>
-    </div>
+  <section class="mb-5">
+    <h2>Schaalbaarheid en datamodel</h2>
+    <p>
+      In het datamodel is bewust gekozen voor references in plaats van embedding bij veelgebruikte relaties zoals reviews en favorieten.
+      Dit verhoogt de schaalbaarheid en performance bij grote hoeveelheden data. Simpele data zoals tags zijn wel ge-embed in Game-documenten.
+    </p>
+    <p>
+      Reviews en favorieten zijn als aparte collecties opgeslagen met verwijzingen naar User en Game. Hierdoor blijft het systeem flexibel en uitbreidbaar,
+      en kunnen gebruikers en games miljoenen interacties verwerken zonder verlies in snelheid.
+    </p>
   </section>
 </div>
