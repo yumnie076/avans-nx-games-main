@@ -1,0 +1,75 @@
+main {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+  /* Header */
+  main header {
+    background: linear-gradient(to right, #1f1f1f, #2c2c2c);
+    padding: 5rem 0;
+    text-align: center;
+  }
+
+    main header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    main header p {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    main header .btn {
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 50px;
+    }
+
+  /* Secties */
+  main section {
+    padding: 4rem 0;
+  }
+
+    main section h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    main section .col-md-4 {
+      padding: 1rem;
+    }
+
+      main section .col-md-4 h4 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      main section .col-md-4 p {
+        font-size: 1rem;
+        color: #e2e2e2;
+        line-height: 1.5;
+      }
+
+    /* Community CTA */
+    main section.text-center {
+      background-color: #f8f9fa;
+      color: #212529;
+    }
+
+      main section.text-center h2 {
+        color: #212529;
+      }
+
+      main section.text-center p {
+        color: #495057;
+      }
+
+      main section.text-center .btn {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+        margin-top: 1rem;
+      }

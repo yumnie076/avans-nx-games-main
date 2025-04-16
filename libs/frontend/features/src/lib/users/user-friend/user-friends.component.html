@@ -1,0 +1,15 @@
+<div *ngIf="friends.length > 0; else geenVrienden">
+  <ul class="list-group">
+    <li class="list-group-item d-flex align-items-center" *ngFor="let friend of friends">
+      <img [src]="friend.profileImgUrl" width="40" height="40" class="me-2 rounded-circle">
+      <div>
+        {{ friend.name }} ({{ friend.emailAddress }})
+      </div>
+      <button class="btn btn-sm btn-danger ms-auto" (click)="unfriend(friend._id)">Verwijder</button>
+    </li>
+  </ul>
+</div>
+
+<ng-template #geenVrienden>
+  <p>Je hebt nog geen vrienden 😢</p>
+</ng-template>

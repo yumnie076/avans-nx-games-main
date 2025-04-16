@@ -1,32 +1,40 @@
-<div class="game-list-container">
-  <h1>📚 Game List</h1>
-  <h2>🎮 Alle Games</h2>
+<div class="container mt-4">
+  <h1 class="mb-3">Game List</h1>
+  <h2 class="mb-4">Alle Games</h2>
 
+  <!-- Alleen zichtbaar voor ingelogde gebruikers -->
+  <div class="d-flex justify-content-end mb-3" *ngIf="authService.isLoggedIn()">
+    <a routerLink="/games/new" class="btn btn-success">
+      Game Aanmaken
+    </a>
+  </div>
+
+  <!-- Game lijst -->
   <ng-container *ngIf="games.length > 0; else loading">
-    <ul class="game-list">
-      <li *ngFor="let game of games" class="game-item">
-        <div class="game-info">
-          <span class="game-title">{{ game.title }}</span>
-          <span class="game-date">📅 {{ game.releaseDate | date }}</span>
+    <ul class="list-group">
+      <li *ngFor="let game of games" class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+        <div>
+          <h5 class="mb-1">{{ game.title }}</h5>
+          <small class="text-muted">{{ game.releaseDate | date }}</small>
         </div>
-        <button class="btn btn-sm" (click)="toggleFavorite(game._id)">
-          <span *ngIf="isFavorite(game._id)">❤️</span>
-          <span *ngIf="!isFavorite(game._id)">🤍</span>
-          Favoriet
-        </button>
 
-        <a [routerLink]="['/games', game._id]" class="details-link">Bekijk details</a>
+        <div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
+          <!-- Alleen zichtbaar voor ingelogde gebruikers -->
+          <button *ngIf="authService.isLoggedIn()"
+                  class="btn btn-outline-secondary btn-sm"
+                  (click)="toggleFavorite(game._id)">
+            {{ isFavorite(game._id) ? 'Verwijder Favoriet' : 'Favoriet' }}
+          </button>
+
+          <a [routerLink]="['/games', game._id]" class="btn btn-primary btn-sm">Details</a>
+        </div>
       </li>
     </ul>
   </ng-container>
 
-  <div class="d-flex justify-content-end mb-3">
-    <a routerLink="/games/new" class="btn btn-success">
-      ➕ Game Aanmaken
-    </a>
-  </div>
-
+  <!-- Geen games of aan het laden -->
   <ng-template #loading>
-    <p>⏳ Games worden geladen...</p>
+    <p *ngIf="games.length === 0">Er zijn momenteel geen games beschikbaar.</p>
+    <p *ngIf="games.length === undefined">Games worden geladen...</p>
   </ng-template>
 </div>

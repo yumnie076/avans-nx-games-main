@@ -1,47 +1,29 @@
-<main class="bg-dark text-white">
+<main class="bg-dark text-white min-vh-100">
   <header class="text-center py-5">
     <div class="container">
-      <h1 class="display-3">Welcome to the Book Library</h1>
+      <h1 class="display-3">Welkom bij GameZone</h1>
       <p class="lead">
-        Discover stories, knowledge, and imagination. Your next great read is just a click away.
+        Ontdek de leukste bordspellen en videogames. Voeg je favorieten toe of bekijk de collectie van anderen.
       </p>
-      <a href="/books" class="btn btn-outline-light btn-lg mt-3">Browse Books</a>
+      <a routerLink="/games" class="btn btn-outline-light btn-lg mt-3">Bekijk alle spellen</a>
     </div>
   </header>
 
-  <section class="py-5">
+  <section class="py-5 bg-secondary">
     <div class="container">
-      <h2 class="text-center mb-4">Featured Books</h2>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-        <div class="col">
-          <div class="card bg-secondary text-white shadow-sm">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Book Cover" />
-            <div class="card-body">
-              <h5 class="card-title">1984</h5>
-              <p class="card-text">A dystopian masterpiece by George Orwell.</p>
-              <a href="/books/1" class="btn btn-light btn-sm">View Details</a>
-            </div>
-          </div>
+      <h2 class="text-center mb-4">Waarom GameZone?</h2>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <h4>Spellen ontdekken</h4>
+          <p>Bekijk en filter spellen, lees beoordelingen en vind nieuwe favorieten.</p>
         </div>
-        <div class="col">
-          <div class="card bg-secondary text-white shadow-sm">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Book Cover" />
-            <div class="card-body">
-              <h5 class="card-title">Pride and Prejudice</h5>
-              <p class="card-text">A timeless romance by Jane Austen.</p>
-              <a href="/books/2" class="btn btn-light btn-sm">View Details</a>
-            </div>
-          </div>
+        <div class="col-md-4">
+          <h4>Vrienden maken</h4>
+          <p>Voeg andere spelers toe als vriend en deel jullie favoriete games.</p>
         </div>
-        <div class="col">
-          <div class="card bg-secondary text-white shadow-sm">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Book Cover" />
-            <div class="card-body">
-              <h5 class="card-title">To Kill a Mockingbird</h5>
-              <p class="card-text">A novel about justice and race by Harper Lee.</p>
-              <a href="/books/3" class="btn btn-light btn-sm">View Details</a>
-            </div>
-          </div>
+        <div class="col-md-4">
+          <h4>Reviews schrijven</h4>
+          <p>Laat jouw mening achter en help anderen om de beste spellen te kiezen.</p>
         </div>
       </div>
     </div>
@@ -49,9 +31,9 @@
 
   <section class="py-5 text-center">
     <div class="container">
-      <h2>Join Our Community</h2>
-      <p class="lead">Become part of a vibrant book-loving community!</p>
-      <a href="/register" class="btn btn-primary btn-lg">Sign Up</a>
+      <h2>Word lid van onze community</h2>
+      <p class="lead">Registreer je gratis en begin vandaag nog met spelen en ontdekken.</p>
+      <a routerLink="/register" class="btn btn-primary btn-lg">Registreren</a>
     </div>
   </section>
 </main>
