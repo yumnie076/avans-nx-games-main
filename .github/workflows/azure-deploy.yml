@@ -1,4 +1,4 @@
-name: Build and deploy frontend and backend apps to Azure
+name: Build and deploy frontend and backend apps to Azur
 
 on:
   push:
