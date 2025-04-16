@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and zip apps from /dist
     steps:
-      - name: Clean dist folder (optional but helps)
-        run: rm -rf dist
-
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
@@ -21,11 +18,14 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Clean old dist
+        run: rm -rf dist
+
       - name: Install dependencies
         run: npm install
 
       - name: Build all apps
-        run: npm run build
+        run: npm run build --if-present
 
       - name: Zip data-api
         run: |
@@ -65,26 +65,25 @@ jobs:
     name: Deploy Angular Frontend
     needs: build
     steps:
-      - name: Download artifact
+      - name: Download Angular artifact
         uses: actions/download-artifact@v4
         with:
           name: my-app
 
-      - name: Unzip artifact
+      - name: Unzip Angular app
         run: unzip my-app-release.zip
 
       - name: Deploy to Azure Static Web App
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
-          app_location: /
-          output_location: .
+          app_location: '.' # uitgepakte root van Angular
+          output_location: '.' # inhoud is al build output
 
   deploy-data-api:
     runs-on: ubuntu-latest
-    name: Deploy NestJs data-api backend
+    name: Deploy NestJS data-api backend
     needs: build
     steps:
       - name: Download artifact
@@ -94,6 +93,9 @@ jobs:
 
       - name: Unzip artifact
         run: unzip data-api-release.zip
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v3
@@ -115,6 +117,9 @@ jobs:
 
       - name: Unzip artifact
         run: unzip rcmnd-api-release.zip
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v3
