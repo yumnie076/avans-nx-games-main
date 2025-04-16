@@ -13,23 +13,34 @@ export class UserSuggestionsComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.currentUserId) return;
-    this.http
-      .get<{ results: any[] }>('http://localhost:3000/api/neo4j/suggest-friends/67ff7ca5fd46562d978124b3')
-      .subscribe((response) => {
-        console.log('Suggesties:', response);
-        this.suggestions = response.results;
-      });
 
+    this.http
+      .get<{ results: any[] }>(`http://localhost:3000/api/neo4j/suggest-friends/${this.currentUserId}`)
+      .subscribe({
+        next: (response) => {
+          console.log('Suggesties:', response);
+          this.suggestions = response.results;
+        },
+        error: (err) => {
+          console.error('Fout bij ophalen suggesties:', err);
+        }
+      });
   }
 
   befriend(userId: string): void {
-    this.http
-      .post('http://localhost:3000/api/neo4j/befriend', {
-        user1: this.currentUserId,
-        user2: userId,
-      })
-      .subscribe(() => {
-        this.suggestions = this.suggestions.filter((u) => u._id !== userId);
-      });
+    if (!this.currentUserId) return;
+
+    this.http.post('http://localhost:3000/api/neo4j/befriend', {
+      user1: this.currentUserId,
+      user2: userId
+    }).subscribe({
+      next: () => {
+        // gebruiker verwijderen uit de suggesties
+        this.suggestions = this.suggestions.filter(u => u._id !== userId);
+      },
+      error: (err) => {
+        console.error('Fout bij toevoegen vriend:', err);
+      }
+    });
   }
 }

@@ -3,7 +3,7 @@ import { Neo4jService } from 'nest-neo4j/dist';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '@avans-nx-workshop/backend/user';
-
+import { Types } from 'mongoose';
 @Injectable()
 export class Neo4JUserService {
   private readonly logger: Logger = new Logger(Neo4JUserService.name);
@@ -35,33 +35,44 @@ export class Neo4JUserService {
 
 
   async befriendUsers(user1: string, user2: string): Promise<void> {
-    await this.neo4jService.write(`
-    MATCH (u1:User {id: $user1}), (u2:User {id: $user2})
+    await this.neo4jService.write(
+      `
+    MERGE (u1:User {id: $user1})
+    MERGE (u2:User {id: $user2})
     MERGE (u1)-[:FRIENDS_WITH]->(u2)
     MERGE (u2)-[:FRIENDS_WITH]->(u1)
-  `, { user1, user2 });
+    `,
+      { user1, user2 }
+    );
   }
+
   async findUsersToBefriend(userId: string): Promise<any[]> {
     try {
       const query = `
-      MATCH (u:User)
-      WHERE u.id <> $userId AND NOT EXISTS {
-        MATCH (:User {id: $userId})-[:FRIENDS_WITH]-(:User {id: u.id})
-      }
-      RETURN u.id AS userId
-    `;
+  MATCH (me:User {id: $userId})
+  MATCH (other:User)
+  WHERE other.id <> me.id
+  OPTIONAL MATCH (me)-[r:FRIENDS_WITH]-(other)
+  WHERE r IS NULL
+  RETURN DISTINCT other.id AS userId
+`;
+
+
+
 
       const result = await this.neo4jService.read(query, { userId });
-
       const userIds = result.records.map(r => r.get('userId'));
 
-      // check of userIds leeg is
       if (!userIds.length) return [];
 
+      const validUserIds = userIds.filter(id => Types.ObjectId.isValid(id));
+
       const users = await this.userModel
-        .find({ _id: { $in: userIds } })
+        .find({ _id: { $in: validUserIds.map(id => new Types.ObjectId(id)) } })
         .select('name emailAddress profileImgUrl')
         .exec();
+
+
 
       return users;
 
@@ -72,6 +83,18 @@ export class Neo4JUserService {
   }
 
 
+
+  async unfriendUsers(user1: string, user2: string): Promise<void> {
+    await this.neo4jService.write(`
+    MATCH (u1:User {id: $user1})-[r:FRIENDS_WITH]->(u2:User {id: $user2})
+    DELETE r
+  `, { user1, user2 });
+
+    await this.neo4jService.write(`
+    MATCH (u2:User {id: $user2})-[r:FRIENDS_WITH]->(u1:User {id: $user1})
+    DELETE r
+  `, { user1, user2 });
+  }
 
 
 
@@ -112,8 +135,12 @@ export class Neo4JUserService {
     const result = await this.neo4jService.read(query, { userId });
 
     const friendIds = result.records.map((r) => r.get('friendId'));
+
+    
+    const objectIds = friendIds.map(id => new Types.ObjectId(id));
+
     const mongoUsers = await this.userModel
-      .find({ _id: { $in: friendIds } })
+      .find({ _id: { $in: objectIds } })
       .select('name emailAddress profileImgUrl')
       .exec();
 

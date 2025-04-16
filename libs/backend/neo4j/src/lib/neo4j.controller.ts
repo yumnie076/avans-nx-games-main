@@ -22,8 +22,16 @@ export class Neo4jController {
   
   @Post('befriend')
   async befriendUsers(@Body() body: { user1: string; user2: string }) {
+    console.log('VRIENDENSCHAP:', body);
     await this.neo4jService.befriendUsers(body.user1, body.user2);
     return { message: 'Users are now friends' };
+  }
+
+
+  @Post('unfriend')
+  async unfriend(@Body() body: { user1: string; user2: string }) {
+    await this.neo4jService.unfriendUsers(body.user1, body.user2);
+    return { message: 'Gebruikers zijn geen vrienden meer' };
   }
 
 
