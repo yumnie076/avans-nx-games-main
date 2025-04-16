@@ -18,17 +18,17 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: Clean dist folder
-        run: rm -rf dist
-
       - name: Install dependencies
         run: npm install
 
-      - name: Build all apps in production mode
+      - name: Clean dist folder
+        run: rm -rf dist
+
+      - name: Build all apps
         run: |
-          nx build my-app --configuration=production
-          nx build data-api --configuration=production
-          nx build rcmnd-api --configuration=production
+          npx nx build my-app --configuration=production
+          npx nx build data-api --configuration=production
+          npx nx build rcmnd-api --configuration=production
 
       - name: Zip data-api
         run: |
@@ -68,8 +68,7 @@ jobs:
     name: Deploy Angular Frontend
     needs: build
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: my-app
 
