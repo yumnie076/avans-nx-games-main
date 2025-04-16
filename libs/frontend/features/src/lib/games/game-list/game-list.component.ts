@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameApiService } from '@avans-nx-workshop/features';
 import { Game, Favorite } from '@avans-nx-workshop/shared/api';
+import { AuthService } from '../../auth/auth.service'; 
 
 @Component({
   selector: 'app-game-list',
@@ -10,7 +11,9 @@ export class GameListComponent implements OnInit {
   games: Game[] = [];
   favorites: string[] = [];
 
-  constructor(private gameService: GameApiService) { }
+  constructor(private gameService: GameApiService,
+    public authService: AuthService)
+  {}
 
   ngOnInit(): void {
     this.loadGames();

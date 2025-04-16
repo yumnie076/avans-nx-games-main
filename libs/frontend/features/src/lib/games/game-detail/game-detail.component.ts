@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameApiService } from '@avans-nx-workshop/features';
 import { Game, Review } from '@avans-nx-workshop/shared/api';
-
+import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-game-detail',
   templateUrl: './game-detail.component.html',
@@ -15,7 +15,8 @@ export class GameDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private gameService: GameApiService
+    private gameService: GameApiService,
+     public authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +34,7 @@ export class GameDetailComponent implements OnInit {
         return gameId === id;
       });
 
-      console.log('✅ Reviews voor dit spel:', this.reviews);
+      console.log(' Reviews voor dit spel:', this.reviews);
     });
 
 

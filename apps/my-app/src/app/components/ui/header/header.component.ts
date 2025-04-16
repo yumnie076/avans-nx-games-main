@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { AuthService } from '../../../../../../../libs/frontend/features/src/lib/auth/auth.service';
 import { Router } from '@angular/router';
 @Component({
     selector: 'avans-nx-workshop-header',
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   logout(): void {
     localStorage.removeItem('token');

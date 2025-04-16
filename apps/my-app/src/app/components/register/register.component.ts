@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../../../../libs/frontend/features/src/lib/auth/auth.service';
 import { IUserRegistration, IUserIdentity } from '@avans-nx-workshop/shared/api';
 
@@ -16,7 +17,11 @@ export class RegisterComponent {
 
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private http: HttpClient
+  ) { }
 
   register(): void {
     console.log('Attempting to register with data:', this.registrationData);
@@ -25,39 +30,41 @@ export class RegisterComponent {
       next: (response: any) => {
         console.log('Registration response from server:', response);
 
-     
         const user: IUserIdentity = response.results;
 
-       
-        if (user?.token) {
+        if (user?.token && user._id) {
           console.log('User successfully registered with Token:', user.token);
 
-        
-          this.router.navigate(['/login']);
+          localStorage.setItem('userId', user._id);
+
+          // neo4j user toevoegen 
+          this.http.post('http://localhost:3000/api/neo4j/users', {
+            userId: user._id
+          }).subscribe({
+            next: () => {
+              console.log('Gebruiker toegevoegd aan Neo4j');
+              this.router.navigate(['/login']);
+            },
+            error: (err) => {
+              console.error('Fout bij aanmaken van Neo4j-gebruiker:', err);
+              this.errorMessage = 'Registratie is gelukt, maar Neo4j liep fout. Probeer later opnieuw.';
+              this.router.navigate(['/login']);
+            }
+          });
         } else {
-          console.warn(
-            'Registration successful but missing token in the response:',
-            response
-          );
-          this.errorMessage =
-            'Registration successful, but token is missing. Please contact support.';
+          this.errorMessage = 'Registratie gelukt, maar token of ID ontbreekt. Neem contact op met support.';
         }
       },
       error: (err) => {
-        this.errorMessage = 'Registration failed. Please try again.';
-        console.error('Registration error occurred:', err);
-
-        
-        if (err.error) {
-          console.error('Backend error message:', err.error.message || err.error);
-        }
+        this.errorMessage = 'Registratie mislukt. Probeer opnieuw.';
+        console.error('Registratie error:', err);
 
         if (err.status === 409) {
-          this.errorMessage = 'Email is already in use. Please use a different email.';
+          this.errorMessage = 'Dit e-mailadres is al in gebruik.';
         } else if (err.status === 400) {
-          this.errorMessage = 'Invalid registration data. Please check your input.';
+          this.errorMessage = 'Ongeldige gegevens. Controleer je invoer.';
         } else {
-          this.errorMessage = 'An unexpected error occurred. Please try again later.';
+          this.errorMessage = 'Er ging iets mis. Probeer later opnieuw.';
         }
       }
     });

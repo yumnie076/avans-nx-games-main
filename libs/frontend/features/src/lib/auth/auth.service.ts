@@ -10,7 +10,7 @@ import { environment } from '../../../../../../libs/shared/util-env/src/lib/envi
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = `${environment.dataApiUrl}/auth`; // Backend URL
+  private apiUrl = `${environment.dataApiUrl}/auth`; 
 
   constructor(private http: HttpClient) { }
 
@@ -20,5 +20,25 @@ export class AuthService {
 
   register(user: IUserCredentials): Observable<IUserIdentity> {
     return this.http.post<IUserIdentity>(`${this.apiUrl}/register`, user);
+  }
+
+
+  loginUser(user: IUserIdentity): void {
+    localStorage.setItem('token', user.token ?? '');
+
+    localStorage.setItem('userId', user._id);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  logout(): void {
+    localStorage.clear();
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 }

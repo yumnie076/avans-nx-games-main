@@ -1,12 +1,45 @@
 <div class="container mt-4">
   <h2>Nieuw Spel Aanmaken</h2>
   <form (ngSubmit)="createGame()" #form="ngForm">
-    <input [(ngModel)]="game.title" name="title" class="form-control mb-2" placeholder="Titel" required />
-    <input [(ngModel)]="game.releaseDate" name="releaseDate" type="date" class="form-control mb-2" required />
-    <textarea [(ngModel)]="game.description" name="description" class="form-control mb-2" placeholder="Beschrijving"></textarea>
-    <input [(ngModel)]="game.genre" name="genre" class="form-control mb-2" placeholder="Genre" />
-    <input [(ngModel)]="game.minPlayers" name="minPlayers" type="number" class="form-control mb-2" placeholder="Min spelers" />
-    <input [(ngModel)]="game.maxPlayers" name="maxPlayers" type="number" class="form-control mb-2" placeholder="Max spelers" />
+    <input [(ngModel)]="game.title"
+           name="title"
+           class="form-control mb-2"
+           placeholder="Titel"
+           required
+           [class.is-invalid]="form.submitted && form.controls['title'].invalid" />
+
+    <input [(ngModel)]="game.releaseDate"
+           name="releaseDate"
+           type="date"
+           class="form-control mb-2"
+           required
+           [class.is-invalid]="form.submitted && form.controls['releaseDate'].invalid" />
+
+    <textarea [(ngModel)]="game.description"
+              name="description"
+              class="form-control mb-2"
+              placeholder="Beschrijving"
+              [class.is-invalid]="form.submitted && form.controls['description'].invalid"></textarea>
+
+    <input [(ngModel)]="game.genre"
+           name="genre"
+           class="form-control mb-2"
+           placeholder="Genre"
+           [class.is-invalid]="form.submitted && form.controls['genre'].invalid" />
+
+    <input [(ngModel)]="game.minPlayers"
+           name="minPlayers"
+           type="number"
+           class="form-control mb-2"
+           placeholder="Min spelers"
+           [class.is-invalid]="form.submitted && form.controls['minPlayers'].invalid" />
+
+    <input [(ngModel)]="game.maxPlayers"
+           name="maxPlayers"
+           type="number"
+           class="form-control mb-2"
+           placeholder="Max spelers"
+           [class.is-invalid]="form.submitted && form.controls['maxPlayers'].invalid" />
 
     <div class="form-check mb-2">
       <input [(ngModel)]="game.isMultiplayer" name="isMultiplayer" type="checkbox" class="form-check-input" id="multiplayerCheck" />
@@ -21,4 +54,3 @@
     <button type="submit" class="btn btn-primary">Aanmaken</button>
   </form>
 </div>
-<router-outlet></router-outlet>

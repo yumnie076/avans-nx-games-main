@@ -20,5 +20,6 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   controllers: [Neo4jController],
   providers: [Neo4JUserService],
+  exports: [Neo4JUserService],
 })
 export class Neo4jBackendModule { }

@@ -1,0 +1,15 @@
+
+<div *ngIf="suggestions.length > 0; else geenSuggesties">
+  <h3>Vriendsuggesties</h3>
+  <ul>
+    <li *ngFor="let user of suggestions">
+      <img [src]="user.profileImgUrl" width="30" height="30" style="border-radius: 50%" />
+      {{ user.name }} ({{ user.emailAddress }})
+      <button (click)="befriend(user._id)">Voeg toe</button>
+    </li>
+  </ul>
+</div>
+
+<ng-template #geenSuggesties>
+  <p>Er zijn geen suggesties beschikbaar.</p>
+</ng-template>

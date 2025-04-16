@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AboutComponent } from './components/about/about.component';
-import { UserDetailsComponent, UserEditComponent, UserListComponent, ColumnsComponent } from '@avans-nx-workshop/features';
+import { UserDetailsComponent, UserEditComponent, UserListComponent, ColumnsComponent, UserSuggestionsComponent, UserFriendsComponent } from '@avans-nx-workshop/features';
 import { GameListComponent, GameDetailComponent } from '@avans-nx-workshop/features';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -19,7 +19,8 @@ export const appRoutes: Route[] = [
   { path: 'games/:id', component: GameDetailComponent },
   { path: 'games/:id/edit', component: GameEditComponent },
   { path: 'favorites', component: UserFavoritesComponent },
-
+  { path: 'suggested-friends', component: UserSuggestionsComponent },
+  { path: 'mijn-vrienden', component: UserFriendsComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'about', pathMatch: 'full', component: AboutComponent },
     { path: 'users', pathMatch: 'full', component: UserListComponent },
