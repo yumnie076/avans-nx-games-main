@@ -33,7 +33,7 @@ export class GameDetailComponent implements OnInit {
         return gameId === id;
       });
 
-      console.log('✅ Reviews voor dit spel:', this.reviews);
+      console.log(' Reviews voor dit spel:', this.reviews);
     });
 
 

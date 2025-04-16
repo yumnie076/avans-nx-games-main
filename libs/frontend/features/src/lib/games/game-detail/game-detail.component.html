@@ -1,27 +1,32 @@
 <div class="game-detail-container" *ngIf="game; else loading">
-  <h1>🎯 Game Details</h1>
+  <h1>Game Details</h1>
 
   <div class="game-info">
-    <p><strong>🎮 Titel:</strong> {{ game.title }}</p>
-    <p><strong>📝 Beschrijving:</strong> {{ game.description || 'Geen beschrijving beschikbaar.' }}</p>
-    <p><strong>📅 Releasedatum:</strong> {{ game.releaseDate | date: 'longDate' }}</p>
-    <p><strong>🎭 Genre:</strong> {{ game.genre || 'Onbekend' }}</p>
-    <p><strong>👥 Multiplayer:</strong> {{ game.isMultiplayer ? 'Ja' : 'Nee' }}</p>
-    <p><strong>👤 Min spelers:</strong> {{ game.minPlayers || 'n.v.t.' }}</p>
-    <p><strong>👥 Max spelers:</strong> {{ game.maxPlayers || 'n.v.t.' }}</p>
-    <p><strong>🌐 Taalonafhankelijk:</strong> {{ game.languageIndependent ? 'Ja' : 'Nee' }}</p>
+    <p><strong>Titel:</strong> {{ game.title }}</p>
+    <p><strong>Beschrijving:</strong> {{ game.description || 'Geen beschrijving beschikbaar.' }}</p>
+    <p><strong>Releasedatum:</strong> {{ game.releaseDate | date: 'longDate' }}</p>
+    <p><strong>Genre:</strong> {{ game.genre || 'Onbekend' }}</p>
+    <p><strong>Multiplayer:</strong> {{ game.isMultiplayer ? 'Ja' : 'Nee' }}</p>
+    <p><strong>Min spelers:</strong> {{ game.minPlayers || 'n.v.t.' }}</p>
+    <p><strong>Max spelers:</strong> {{ game.maxPlayers || 'n.v.t.' }}</p>
+    <p><strong>Taalonafhankelijk:</strong> {{ game.languageIndependent ? 'Ja' : 'Nee' }}</p>
   </div>
 
   <!-- Review-lijst -->
   <div class="mt-4">
-    <h5>📋 Reviews over dit spel</h5>
+    <h5>Reviews over dit spel</h5>
 
     <div *ngIf="reviews.length === 0">
       <p>Er zijn nog geen reviews voor dit spel.</p>
     </div>
 
     <div *ngFor="let review of reviews" class="mt-3 border p-2 rounded">
-      <strong>⭐ {{ review.rating }}</strong>
+      <div>
+        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+          <span [style.color]="star <= review.rating ? 'gold' : 'lightgray'" style="font-size: 1.4rem;">★</span>
+        </ng-container>
+      </div>
+
       <p>{{ review.comment || '(geen comment)' }}</p>
       <p class="text-muted">Door: {{ getReviewerName(review) }}</p>
       <button *ngIf="getReviewerId(review) === currentUserId"
@@ -31,31 +36,39 @@
       </button>
     </div>
   </div>
-
-  <!-- Nieuw reviewformulier -->
   <div class="mt-4">
-    <h5>✍️ Nieuwe review toevoegen</h5>
-    <form (ngSubmit)="submitReview()">
-      <input [(ngModel)]="newReview.rating"
-             name="rating"
-             type="number"
-             min="1"
-             max="5"
-             class="form-control mb-2"
-             placeholder="Rating (1-5)"
-             required />
-      <textarea [(ngModel)]="newReview.comment"
-                name="comment"
-                class="form-control mb-2"
-                placeholder="Comment"></textarea>
+    <h5>Nieuwe review toevoegen</h5>
+    <form #reviewForm="ngForm" (ngSubmit)="submitReview()">
+      <div class="mb-2">
+        <label class="form-label">Rating</label><br />
+        <span *ngFor="let star of [1, 2, 3, 4, 5]"
+              (click)="newReview.rating = star"
+              [style.color]="star <= (newReview.rating ?? 0) ? 'gold' : 'lightgray'"
+              class="star">
+          ★
+        </span>
+        <div *ngIf="!newReview.rating && reviewForm.submitted" class="text-danger">
+          Selecteer een beoordeling.
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <label for="comment" class="form-label">Opmerking</label>
+        <textarea [(ngModel)]="newReview.comment"
+                  name="comment"
+                  class="form-control"
+                  placeholder="Optioneel"></textarea>
+      </div>
+
       <button type="submit" class="btn btn-primary">Plaats review</button>
     </form>
   </div>
 
+
   <a [routerLink]="['/games', game._id, 'edit']" class="btn btn-warning mt-3">Bewerk dit spel</a>
-  <button routerLink="/games" class="btn btn-secondary mt-2">🔙 Terug naar lijst</button>
+  <button routerLink="/games" class="btn btn-secondary mt-2">Terug naar lijst</button>
 </div>
 
 <ng-template #loading>
-  <p>⏳ Game wordt geladen...</p>
+  <p>Game wordt geladen...</p>
 </ng-template>
